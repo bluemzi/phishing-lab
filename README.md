@@ -31,10 +31,10 @@ docker-compose up -d
 - Tracked who clicked the link and who submitted credentials
 
 ## What GoPhish tracked
-- ✅ Email Sent
-- ✅ Email Opened
-- ✅ Link Clicked
-- ✅ Credentials Submitted (username + password captured)
+* Email Sent
+* Email Opened
+* Link Clicked
+* Credentials Submitted (username + password captured)
 
 ## Why this matters in a real SOC environment
 In a real enterprise security assessment, this type of simulation is used to test employee awareness. Any user who clicked the link and submitted their credentials would be flagged and required to attend security awareness training. This is a standard practice in phishing resilience programs.

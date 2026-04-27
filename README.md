@@ -52,6 +52,21 @@ In a real enterprise security assessment, this type of simulation is used to tes
 ### Email Template Details
 ![Email Template Details](screenshots/gophish-email-template-details.jpg)
 
+## Phishing Email Template (GoPhish)
+
+The following is the original email template configured in GoPhish. `{{.URL}}` is automatically replaced with the tracking link and `{{.Tracker}}` inserts the invisible tracking pixel.
+
+```html
+<html>
+<body>
+<p>Dear Employee,</p>
+<p>Your corporate password will expire in <strong>24 hours</strong>. Please click the link below to reset your password immediately.</p>
+<p><a href="{{.URL}}">Reset Password Now</a></p>
+<p>IT Security Team</p>
+{{.Tracker}}</body>
+</html>
+```
+
 ### Landing Pages
 ![Landing Pages](screenshots/gophish-landing-pages.jpg)
 
@@ -70,11 +85,28 @@ In a real enterprise security assessment, this type of simulation is used to tes
 ### Users in Test Targets Group
 ![Users in Test Targets Group](screenshots/gophish-users-in-test-targets-group.jpg)
 
-### Fake Landing Page
-![Fake Landing Page](screenshots/landing-page.jpg)
-
 ### MailHog Dashboard
 ![MailHog Dashboard](screenshots/mailhog-dashboard.jpg)
 
 ### MailHog Received Email
 ![MailHog Received Email](screenshots/mailhog-recieved-email.jpg)
+
+### Fake Landing Page
+![Fake Landing Page](screenshots/landing-page.jpg)
+
+### Fake Landing Page (HTML Source)
+
+```html
+<html><head></head><body>
+<h2>Corporate Password Reset</h2>
+<form method="POST" action="">
+  <label>Username:</label><br/>
+  <input type="text" name="username"/><br/><br/>
+  <label>New Password:</label><br/>
+  <input type="password" name="password"/><br/><br/>
+  <input type="submit" value="Reset Password"/>
+</form>
+</body></html>
+```
+
+Note: When the victim submits this form, GoPhish captures the entered credentials and logs them in the campaign results.

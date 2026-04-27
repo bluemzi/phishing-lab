@@ -1,6 +1,6 @@
 # Phishing Simulation Lab – GoPhish + MailHog
 
-A home lab I built to simulate phishing campaigns and demonstrate how social engineering attacks work in a controlled environment. This lab is part of my broader SOC home lab setup alongside my ELK SIEM lab.
+A home lab I built to simulate phishing campaigns and demonstrate how social engineering attacks work in a controlled environment. This lab is part of my broader SOC home lab setup alongside my [ELK SIEM lab](https://github.com/bluemzi/elk-soc-lab).
 
 ## Why I built this
 Understanding how phishing attacks work from the attacker's perspective is essential for a SOC Analyst. Detecting and responding to phishing requires knowing what indicators to look for — this lab helped me understand the full attack chain.
@@ -31,15 +31,16 @@ docker-compose up -d
 - Tracked who clicked the link and who submitted credentials
 
 ## What GoPhish tracked
-- Email Sent
-- Email Opened
-- Link Clicked
-- Credentials Submitted (username + password captured)
+- ✅ Email Sent
+- ✅ Email Opened
+- ✅ Link Clicked
+- ✅ Credentials Submitted (username + password captured)
 
 ## Why this matters in a real SOC environment
 In a real enterprise security assessment, this type of simulation is used to test employee awareness. Any user who clicked the link and submitted their credentials would be flagged and required to attend security awareness training. This is a standard practice in phishing resilience programs.
 
 ## Screenshots
+
 ### GoPhish Dashboard
 ![GoPhish Dashboard](screenshots/gophish-dashboard.jpg)
 
@@ -67,11 +68,24 @@ The following is the original email template configured in GoPhish. `{{.URL}}` i
 </html>
 ```
 
-### Landing Pages
-![Landing Pages](screenshots/gophish-landing-pages.jpg)
+## Phishing Email as seen in MailHog
 
-### Landing Page Details
-![Landing Page Details](screenshots/gophish-landing-pages-details.jpg)
+The following is the raw HTML source of the phishing email as received in MailHog. Note the `=3D` encoding which is standard quoted-printable email encoding for the `=` character.
+
+```html
+<html>
+<body>
+<p>Dear Employee,</p>
+<p>Your corporate password will expire in <strong>24 hours</strong>. Please
+ click the link below to reset your password immediately.</p>
+<p><a href="http://10.0.2.15:8080?rid=tvSkViN">Reset Password Now</a></p>
+<p>IT Security Team</p>
+<img alt='' style='display: none' src='http://10.0.2.15:8080/track?rid=tvSkViN'/>
+</body>
+</html>
+```
+
+Note: The tracking pixel (`<img>` tag) is invisible to the recipient but notifies GoPhish when the email is opened.
 
 ### Sending Profiles
 ![Sending Profiles](screenshots/gophish-sending-profiles.jpg)
@@ -91,10 +105,16 @@ The following is the original email template configured in GoPhish. `{{.URL}}` i
 ### MailHog Received Email
 ![MailHog Received Email](screenshots/mailhog-recieved-email.jpg)
 
+### Landing Pages
+![Landing Pages](screenshots/gophish-landing-pages.jpg)
+
+### Landing Page Details
+![Landing Page Details](screenshots/gophish-landing-pages-details.jpg)
+
 ### Fake Landing Page
 ![Fake Landing Page](screenshots/landing-page.jpg)
 
-### Fake Landing Page (HTML Source)
+## Fake Landing Page (HTML Source)
 
 ```html
 <html><head></head><body>
